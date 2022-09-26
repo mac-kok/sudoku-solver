@@ -1,24 +1,24 @@
 <?php
-    $nonet = 'nonet.php';
+    $block = 'block.php';
 ?>
 
 <form method="post">
     <div class="row justify-content-center">
         <div class="col-auto border border-dark">
             <div class="row justify-content-center">
-                <?php include $nonet ?>
-                <?php include $nonet ?>
-                <?php include $nonet ?>
+                <?php include $block ?>
+                <?php include $block ?>
+                <?php include $block ?>
             </div>
             <div class="row justify-content-center">
-                <?php include $nonet ?>
-                <?php include $nonet ?>
-                <?php include $nonet ?>
+                <?php include $block ?>
+                <?php include $block ?>
+                <?php include $block ?>
             </div>
             <div class="row justify-content-center">
-                <?php include $nonet ?>
-                <?php include $nonet ?>
-                <?php include $nonet ?>
+                <?php include $block ?>
+                <?php include $block ?>
+                <?php include $block ?>
             </div>
         </div>
     </div>
