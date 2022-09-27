@@ -5,12 +5,12 @@ abstract class Set
     /**
      * @var int
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @var array<Cell>
      */
-    protected $cells = [];
+    protected array $cells = [];
 
     public function __construct($id)
     {
@@ -20,7 +20,7 @@ abstract class Set
     /**
      * @return array<Cell>
      */
-    public function getCells()
+    public function getCells(): array
     {
         return $this->cells;
     }
@@ -28,7 +28,7 @@ abstract class Set
     /**
      * @param Cell $cell
      */
-    public function addCell($cell)
+    public function addCell(Cell $cell)
     {
         $this->cells[] = $cell;
     }
@@ -36,7 +36,7 @@ abstract class Set
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

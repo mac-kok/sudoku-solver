@@ -1,25 +1,35 @@
 <?php
-    $block = 'block.php';
+spl_autoload_register(function ($className){
+    include $_SERVER['DOCUMENT_ROOT'] . '/sudoku-solver/module/sudoku/' . $className . '.php';
+});
+
+$sudokuSize = 9;
+$amountOfRows = $sudokuSize / 3;
+$sudoku = new Sudoku($sudokuSize);
+$blockTemplate = 'block.php';
 ?>
 
 <form method="post">
     <div class="row justify-content-center">
         <div class="col-auto border border-dark">
-            <div class="row justify-content-center">
-                <?php include $block ?>
-                <?php include $block ?>
-                <?php include $block ?>
-            </div>
-            <div class="row justify-content-center">
-                <?php include $block ?>
-                <?php include $block ?>
-                <?php include $block ?>
-            </div>
-            <div class="row justify-content-center">
-                <?php include $block ?>
-                <?php include $block ?>
-                <?php include $block ?>
-            </div>
+            <?php
+            foreach ($sudoku->getBlocks() as $block)
+            {
+                $blockId = $block->getId();
+
+                if ($blockId === 0 || $blockId % $amountOfRows === 0)
+                {
+                    echo "<div class='row justify-content-center'>";
+                }
+
+                include $blockTemplate;
+
+                if (($blockId + 1) % $amountOfRows === 0)
+                {
+                    echo "</div>";
+                }
+            }
+            ?>
         </div>
     </div>
     <div class="row justify-content-center mt-4">
@@ -28,3 +38,20 @@
         </div>
     </div>
 </form>
+
+<?php
+if (isset($_POST['solve']))
+{
+    foreach ($_POST['cell'] as $cellId => $cell)
+    {
+        if ($cell !== "")
+        {
+            $foundCell = $sudoku->findCell($cellId);
+            if (!is_null($foundCell))
+            {
+                $foundCell->setNumber($cell);
+            }
+        }
+    }
+}
+?>
