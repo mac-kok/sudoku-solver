@@ -28,7 +28,7 @@ abstract class Set
     /**
      * @param Cell $cell
      */
-    public function addCell(Cell $cell)
+    public function addCell(Cell $cell): void
     {
         $this->cells[] = $cell;
     }

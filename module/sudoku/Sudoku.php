@@ -24,9 +24,12 @@ class Sudoku
      */
     private array $blocks = [];
 
+    private int $size;
+
     public function __construct($size)
     {
-        $this->init($size);
+        $this->size = $size;
+        $this->init();
     }
 
     /**
@@ -76,25 +79,24 @@ class Sudoku
 
     /**
      * Initializes empty sudoku
-     * @param $size int The size of the sudoku (amount of blocks e.g. 9x9 cells = 9 blocks)
      * @return void
      */
-    private function init(int $size)
+    private function init(): void
     {
-        $this->initCells($size * $size);
-        $this->initRows($size);
-        $this->initColumns($size);
-        $this->initBlocks($size);
+        $this->initCells();
+        $this->initRows();
+        $this->initColumns();
+        $this->initBlocks();
     }
 
     /**
      * Initializes empty cells
-     * @param $amount int The amount of cells that should be initialized
      * @return void
      */
-    private function initCells(int $amount)
+    private function initCells(): void
     {
-        for ($i = 0; $i < $amount; $i++)
+        $size = $this->size * $this->size;
+        for ($i = 0; $i < $size; $i++)
         {
             $this->cells[] = new Cell($i);
         }
@@ -102,17 +104,16 @@ class Sudoku
 
     /**
      * Initializes rows and fills them with cells
-     * @param $amount int The amount of rows that should be initialized
      * @return void
      */
-    private function initRows(int $amount)
+    private function initRows(): void
     {
         $minCell = 0;
-        for ($i = 0; $i < $amount; $i++)
+        for ($i = 0; $i < $this->size; $i++)
         {
             $this->rows[] = new Row($i);
 
-            $maxCell = $minCell + $amount;
+            $maxCell = $minCell + $this->size;
             for ($cell = $minCell; $cell < $maxCell; $cell++)
             {
                 $this->rows[$i]->addCell($this->cells[$cell]);
@@ -125,19 +126,18 @@ class Sudoku
 
     /**
      * Initializes columns and fills them with cells
-     * @param $amount int The amount of columns that should be initialized
      * @return void
      */
-    private function initColumns(int $amount)
+    private function initColumns(): void
     {
-        for ($i = 0; $i < $amount; $i++)
+        for ($i = 0; $i < $this->size; $i++)
         {
             $this->columns[] = new Column($i);
         }
 
         foreach ($this->rows as $row)
         {
-            for ($i = 0; $i < $amount; $i++)
+            for ($i = 0; $i < $this->size; $i++)
             {
                 $cell = $row->getCells()[$i];
                 $cell->setColumn($this->columns[$i]);
@@ -148,12 +148,11 @@ class Sudoku
 
     /**
      * Initializes blocks and fills them with cells
-     * @param $amount int The amount of blocks that should be initialized
      * @return void
      */
-    private function initBlocks(int $amount)
+    private function initBlocks(): void
     {
-        for ($i = 0; $i < $amount; $i++)
+        for ($i = 0; $i < $this->size; $i++)
         {
             $this->blocks[] = new Block($i);
         }
@@ -178,7 +177,7 @@ class Sudoku
                     $i++;
                 }
 
-                if (($columnId + 1) % $amount === 0)
+                if (($columnId + 1) % $this->size === 0)
                 {
                     $i = $minBlock;
                 }

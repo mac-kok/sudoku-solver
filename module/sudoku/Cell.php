@@ -2,11 +2,11 @@
 
 class Cell
 {
-    private $id;
-    private $number = 0;
-    private $row;
-    private $column;
-    private $block;
+    private int $id;
+    private int $number = 0;
+    private Row $row;
+    private Column $column;
+    private Block $block;
 
     public function __construct($id)
     {
@@ -16,23 +16,23 @@ class Cell
     /**
      * @return int
      */
-    public function getNumber()
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumber(): int
     {
         return $this->number;
     }
 
     /**
-     * @param int $number
-     */
-    public function setNumber($number)
-    {
-        $this->number = $number;
-    }
-
-    /**
      * @return Row
      */
-    public function getRow()
+    public function getRow(): Row
     {
         return $this->row;
     }
@@ -40,7 +40,7 @@ class Cell
     /**
      * @return Column
      */
-    public function getColumn()
+    public function getColumn(): Column
     {
         return $this->column;
     }
@@ -48,15 +48,23 @@ class Cell
     /**
      * @return Block
      */
-    public function getBlock()
+    public function getBlock(): Block
     {
         return $this->block;
     }
 
     /**
+     * @param int $number
+     */
+    public function setNumber(int $number): void
+    {
+        $this->number = $number;
+    }
+
+    /**
      * @param Row $row
      */
-    public function setRow($row)
+    public function setRow(Row $row): void
     {
         $this->row = $row;
     }
@@ -64,7 +72,7 @@ class Cell
     /**
      * @param Column $column
      */
-    public function setColumn($column)
+    public function setColumn(Column $column): void
     {
         $this->column = $column;
     }
@@ -72,16 +80,8 @@ class Cell
     /**
      * @param Block $block
      */
-    public function setBlock($block)
+    public function setBlock(Block $block): void
     {
         $this->block = $block;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 }
