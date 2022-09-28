@@ -120,7 +120,7 @@ class Sudoku
                 $this->cells[$cell]->setRow($this->rows[$i]);
             }
 
-            $minCell += 9;
+            $minCell += $this->size;
         }
     }
 
@@ -152,34 +152,42 @@ class Sudoku
      */
     private function initBlocks(): void
     {
-        for ($i = 0; $i < $this->size; $i++)
+        $blocksInRow = $this->size / 3;
+        $amount = $blocksInRow * $blocksInRow;
+        // Initialize blocks
+        for ($block = 0; $block < $amount; $block++)
         {
-            $this->blocks[] = new Block($i);
+            $this->blocks[] = new Block($block);
         }
 
+        // Fill blocks with the correct cells based on row and column
         $minBlock = 0;
-        $i = 0;
+        $block = 0;
         foreach ($this->rows as $row)
         {
+            // Increase minimum block ID when a row of blocks is filled
             if (($row->getId() + 1) % 3 === 0)
             {
-                $minBlock += 3;
+                $amount = $this->size / 3;
+                $minBlock += $amount;
             }
 
             foreach ($row->getCells() as $cell)
             {
-                $this->blocks[$i]->addCell($cell);
-                $cell->setBlock($this->blocks[$i]);
+                $this->blocks[$block]->addCell($cell);
+                $cell->setBlock($this->blocks[$block]);
 
+                // Increase block ID when 3 cells of a row have been allocated to a block
                 $columnId = $cell->getColumn()->getId();
                 if (($columnId + 1) % 3 === 0)
                 {
-                    $i++;
+                    $block++;
                 }
 
+                // Resets block ID to minimum block ID when all cells of a row have been allocated to a block
                 if (($columnId + 1) % $this->size === 0)
                 {
-                    $i = $minBlock;
+                    $block = $minBlock;
                 }
             }
         }

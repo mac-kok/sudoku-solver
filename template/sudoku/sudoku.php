@@ -11,7 +11,7 @@ $blockTemplate = 'block.php';
 
 <form method="post">
     <div class="row justify-content-center">
-        <div class="col-auto border border-dark">
+        <div class="col-12 col-lg-6 border border-dark p-0">
             <?php
             foreach ($sudoku->getBlocks() as $block)
             {
@@ -19,7 +19,7 @@ $blockTemplate = 'block.php';
 
                 if ($blockId === 0 || $blockId % $amountOfRows === 0)
                 {
-                    echo "<div class='row justify-content-center'>";
+                    echo "<div class='row g-0'>";
                 }
 
                 include $blockTemplate;
@@ -32,7 +32,7 @@ $blockTemplate = 'block.php';
             ?>
         </div>
     </div>
-    <div class="row justify-content-center mt-4">
+    <div class="row justify-content-center mt-3 mb-3">
         <div class="col-auto">
             <button type="submit" name="solve" class="btn btn-primary">Solve</button>
         </div>
