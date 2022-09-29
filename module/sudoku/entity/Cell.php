@@ -4,7 +4,7 @@ namespace SudokuSolver\Sudoku\Entity;
 class Cell
 {
     private int $id;
-    private int $number = 0;
+    private ?int $number = null;
     private Row $row;
     private Column $column;
     private Block $block;
@@ -23,9 +23,9 @@ class Cell
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getNumber(): int
+    public function getNumber(): ?int
     {
         return $this->number;
     }
