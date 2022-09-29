@@ -1,4 +1,19 @@
-.cell {
-    width: 60px;
-    height: 60px;
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.square {
+    position: relative;
+    padding-bottom: 100%;
+}
+
+.content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
