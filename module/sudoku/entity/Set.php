@@ -1,4 +1,5 @@
 <?php
+namespace SudokuSolver\Sudoku\Entity;
 
 abstract class Set
 {

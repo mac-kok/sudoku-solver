@@ -1,9 +1,9 @@
 <?php
-
-// Load our autoloader
 require_once __DIR__.'/vendor/autoload.php';
-use Twig\Loader\FilesystemLoader;
+
+use SudokuSolver\Sudoku\Factory\SudokuFactory;
 use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 // Specify our Twig templates location
 $loader = new FilesystemLoader(__DIR__ . '/templates');
@@ -12,23 +12,15 @@ $loader = new FilesystemLoader(__DIR__ . '/templates');
 $twig = new Environment($loader);
 
 // Render our view
-spl_autoload_register(function ($className){
-    include $_SERVER['DOCUMENT_ROOT'] . '/sudoku-solver/module/sudoku/' . $className . '.php';
-});
-
-$sudoku = new Sudoku();
+$sudoku = SudokuFactory::build();
 $amountOfRows = $sudoku::SIZE / 3;
 $changedCells = [];
 
-if (isset($_POST['solve']))
-{
-    foreach ($_POST['cell'] as $cellId => $cell)
-    {
-        if ($cell !== "")
-        {
+if (isset($_POST['solve'])) {
+    foreach ($_POST['cell'] as $cellId => $cell) {
+        if ($cell !== "") {
             $foundCell = $sudoku->findCell($cellId);
-            if (!is_null($foundCell))
-            {
+            if (!is_null($foundCell)) {
                 $foundCell->setNumber($cell);
                 $changedCells[] = $foundCell;
             }

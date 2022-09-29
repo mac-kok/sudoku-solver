@@ -1,4 +1,5 @@
 <?php
+namespace SudokuSolver\Sudoku\Entity;
 
 class Cell
 {
