@@ -3,9 +3,8 @@ spl_autoload_register(function ($className){
     include $_SERVER['DOCUMENT_ROOT'] . '/sudoku-solver/module/sudoku/' . $className . '.php';
 });
 
-$sudokuSize = 9;
-$amountOfRows = $sudokuSize / 3;
-$sudoku = new Sudoku($sudokuSize);
+$sudoku = new Sudoku();
+$amountOfRows = $sudoku::SIZE / 3;
 $blockTemplate = 'block.php';
 ?>
 
