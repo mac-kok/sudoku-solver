@@ -24,11 +24,10 @@ class Sudoku
      */
     private array $blocks = [];
 
-    private int $size;
+    const SIZE = 9; // Currently only works with a normal 9 x 9 sudoku
 
-    public function __construct($size)
+    public function __construct()
     {
-        $this->size = $size;
         $this->init();
     }
 
@@ -95,7 +94,7 @@ class Sudoku
      */
     private function initCells(): void
     {
-        $size = $this->size * $this->size;
+        $size = self::SIZE * self::SIZE;
         for ($i = 0; $i < $size; $i++)
         {
             $this->cells[] = new Cell($i);
@@ -109,18 +108,18 @@ class Sudoku
     private function initRows(): void
     {
         $minCell = 0;
-        for ($i = 0; $i < $this->size; $i++)
+        for ($i = 0; $i < self::SIZE; $i++)
         {
             $this->rows[] = new Row($i);
 
-            $maxCell = $minCell + $this->size;
+            $maxCell = $minCell + self::SIZE;
             for ($cell = $minCell; $cell < $maxCell; $cell++)
             {
                 $this->rows[$i]->addCell($this->cells[$cell]);
                 $this->cells[$cell]->setRow($this->rows[$i]);
             }
 
-            $minCell += $this->size;
+            $minCell += self::SIZE;
         }
     }
 
@@ -130,14 +129,14 @@ class Sudoku
      */
     private function initColumns(): void
     {
-        for ($i = 0; $i < $this->size; $i++)
+        for ($i = 0; $i < self::SIZE; $i++)
         {
             $this->columns[] = new Column($i);
         }
 
         foreach ($this->rows as $row)
         {
-            for ($i = 0; $i < $this->size; $i++)
+            for ($i = 0; $i < self::SIZE; $i++)
             {
                 $cell = $row->getCells()[$i];
                 $cell->setColumn($this->columns[$i]);
@@ -152,7 +151,7 @@ class Sudoku
      */
     private function initBlocks(): void
     {
-        $blocksInRow = $this->size / 3;
+        $blocksInRow = self::SIZE / 3;
         $amount = $blocksInRow * $blocksInRow;
         // Initialize blocks
         for ($block = 0; $block < $amount; $block++)
@@ -168,7 +167,7 @@ class Sudoku
             // Increase minimum block ID when a row of blocks is filled
             if (($row->getId() + 1) % 3 === 0)
             {
-                $amount = $this->size / 3;
+                $amount = self::SIZE / 3;
                 $minBlock += $amount;
             }
 
@@ -185,7 +184,7 @@ class Sudoku
                 }
 
                 // Resets block ID to minimum block ID when all cells of a row have been allocated to a block
-                if (($columnId + 1) % $this->size === 0)
+                if (($columnId + 1) % self::SIZE === 0)
                 {
                     $block = $minBlock;
                 }
