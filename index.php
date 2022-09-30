@@ -2,7 +2,7 @@
 require_once __DIR__.'/vendor/autoload.php';
 
 use SudokuSolver\Sudoku\Factory\SudokuFactory;
-use SudokuSolver\Form\FormInputProcessor;
+use SudokuSolver\Form\CellInputApplier;
 use SudokuSolver\Sudoku\SudokuValidator;
 use SudokuSolver\Sudoku\SudokuSolver;
 use Twig\Environment;
@@ -21,7 +21,7 @@ $warningMsg = "";
 
 // Process cell input and solve the sudoku
 if (isset($_POST['solve'])) {
-    FormInputProcessor::processCellInput($sudoku, $_POST['cell']);
+    CellInputApplier::apply($sudoku, $_POST['cell']);
 
     if (SudokuValidator::sudokuIsValid($sudoku)) {
         SudokuSolver::solve($sudoku);
@@ -30,6 +30,7 @@ if (isset($_POST['solve'])) {
     }
 }
 
+// Clear the sudoku
 if (isset($_POST['clear'])) {
     $sudoku->clear();
 }

@@ -91,6 +91,11 @@ class Sudoku
         $this->blocks = $blocks;
     }
 
+    /**
+     * Finds a cell by its ID.
+     * @param $cellId
+     * @return Cell|null
+     */
     #[Pure]
     public function findCell($cellId): ?Cell
     {
@@ -103,6 +108,10 @@ class Sudoku
         return null;
     }
 
+    /**
+     * Clears all numbers.
+     * @return void
+     */
     public function clear(): void
     {
         foreach ($this->cells as $cell) {

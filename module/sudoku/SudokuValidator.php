@@ -7,43 +7,48 @@ use SudokuSolver\Sudoku\Entity\Sudoku;
 
 class SudokuValidator
 {
+    /**
+     * Checks whether a sudoku is valid.
+     * @param Sudoku $sudoku
+     * @return bool
+     */
     public static function sudokuIsValid(Sudoku $sudoku): bool
     {
         $valid = true;
-        $sudokuSize = $sudoku::SIZE;
 
-        foreach ($sudoku->getRows() as $row) {
-            if (!self::isValidSet($row, $sudokuSize)) {
-                $valid = false;
-            }
-        }
-
-        foreach ($sudoku->getColumns() as $column) {
-            if (!self::isValidSet($column, $sudokuSize)) {
-                $valid = false;
-            }
-        }
-
-        foreach ($sudoku->getBlocks() as $block) {
-            if (!self::isValidSet($block, $sudokuSize)) {
-                $valid = false;
-            }
-        }
-
-        return $valid;
-    }
-
-    private static function isValidSet(Set $set, int $sudokuSize): bool
-    {
-        $valid = true;
-
-        if (!self::hasUniqueNumbers($set) || !self::hasValidNumbers($set, $sudokuSize)) {
+        if (!self::setsAreValid($sudoku->getRows(), $sudoku::SIZE) ||
+            !self::setsAreValid($sudoku->getColumns(), $sudoku::SIZE) ||
+            !self::setsAreValid($sudoku->getBlocks(), $sudoku::SIZE)) {
             $valid = false;
         }
 
         return $valid;
     }
 
+    /**
+     * Checks whether the sets in a given array are valid.
+     * @param array<Set> $sets
+     * @param int $sudokuSize
+     * @return bool
+     */
+    private static function setsAreValid(array $sets, int $sudokuSize): bool
+    {
+        $valid = true;
+
+        foreach ($sets as $set) {
+            if (!self::hasUniqueNumbers($set) || !self::hasValidNumbers($set, $sudokuSize)) {
+                $valid = false;
+            }
+        }
+
+        return $valid;
+    }
+
+    /**
+     * Checks whether a set has unique numbers.
+     * @param Set $set
+     * @return bool
+     */
     private static function hasUniqueNumbers(Set $set): bool
     {
         $numbers = [];
@@ -59,6 +64,12 @@ class SudokuValidator
         return count($numbers) === count(array_unique($numbers));
     }
 
+    /**
+     * Checks whether a set has valid numbers.
+     * @param Set $set
+     * @param int $sudokuSize
+     * @return bool
+     */
     private static function hasValidNumbers(Set $set, int $sudokuSize): bool
     {
         $valid = true;
