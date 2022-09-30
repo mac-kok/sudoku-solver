@@ -1,24 +1,27 @@
 <?php
 namespace SudokuSolver\Sudoku\Factory;
 
-use SudokuSolver\Sudoku\Entity\ {Sudoku, Cell, Row, Column, Block};
+use SudokuSolver\Sudoku\Entity\ { Sudoku, Cell, Row, Column, Block };
 
 class SudokuFactory
 {
+    /**
+     * Builds a sudoku with empty cell numbers.
+     * @return Sudoku
+     */
     public static function build(): Sudoku
     {
         $sudoku = new Sudoku();
 
         self::buildCells($sudoku);
-        self::buildRows($sudoku);
-        self::buildColumns($sudoku);
-        self::buildBlocks($sudoku);
+        self::buildSets($sudoku);
+        self::fillSets($sudoku);
 
         return $sudoku;
     }
 
     /**
-     * Builds the cells of a sudoku
+     * Builds the empty cells of a sudoku
      * @param Sudoku $sudoku
      * @return void
      */
@@ -35,81 +38,97 @@ class SudokuFactory
     }
 
     /**
-     * Builds the rows of a sudoku and allocates the cells to them
+     * Builds the empty sets of a sudoku.
      * @param Sudoku $sudoku
      * @return void
      */
-    private static function buildRows(Sudoku $sudoku): void
+    private static function buildSets(Sudoku $sudoku): void
     {
         $rows = [];
+        $columns = [];
+        $blocks = [];
 
-        $minCell = 0;
         for ($i = 0; $i < $sudoku::SIZE; $i++) {
             $rows[] = new Row($i);
-            $cells = $sudoku->getCells();
-
-            $maxCell = $minCell + $sudoku::SIZE;
-            for ($cell = $minCell; $cell < $maxCell; $cell++) {
-                $rows[$i]->addCell($cells[$cell]);
-                $cells[$cell]->setRow($rows[$i]);
-            }
-
-            $minCell += $sudoku::SIZE;
+            $columns[] = new Column($i);
+            $blocks[] = new Block($i);
         }
 
         $sudoku->setRows($rows);
+        $sudoku->setColumns($columns);
+        $sudoku->setBlocks($blocks);
     }
 
     /**
-     * Builds the columns of a sudoku and allocates the cells to them
+     * Fills all sets with cells.
      * @param Sudoku $sudoku
      * @return void
      */
-    private static function buildColumns(Sudoku $sudoku): void
+    private static function fillSets(Sudoku $sudoku): void
     {
-        $columns = [];
-        $rows = $sudoku->getRows();
+        self::fillRows($sudoku);
+        self::fillColumns($sudoku);
+        self::fillBlocks($sudoku);
+    }
 
-        for ($i = 0; $i < $sudoku::SIZE; $i++) {
-            $columns[] = new Column($i);
+    /**
+     * Fills all rows with cells.
+     * @param Sudoku $sudoku
+     * @return void
+     */
+    private static function fillRows(Sudoku $sudoku): void
+    {
+        $cells = $sudoku->getCells();
+
+        $minCellId = 0;
+        foreach ($sudoku->getRows() as $row) {
+            $maxCellId = $minCellId + $sudoku::SIZE;
+            for ($cellId = $minCellId; $cellId < $maxCellId; $cellId++) {
+                $row->addCell($cells[$cellId]);
+                $cells[$cellId]->setRow($row);
+            }
+
+            $minCellId += $sudoku::SIZE;
         }
+    }
+
+    /**
+     * Fills all columns with cells.
+     * @param Sudoku $sudoku
+     * @return void
+     */
+    private static function fillColumns(Sudoku $sudoku): void
+    {
+        $rows = $sudoku->getRows();
+        $columns = $sudoku->getColumns();
 
         foreach ($rows as $row) {
             for ($i = 0; $i < $sudoku::SIZE; $i++) {
                 $cell = $row->getCells()[$i];
+
                 $cell->setColumn($columns[$i]);
                 $columns[$i]->addCell($cell);
             }
         }
-
-        $sudoku->setColumns($columns);
     }
 
     /**
-     * Builds the blocks of a sudoku and allocates the cells to them based on their row and column
+     * Fills all blocks with cells based on their row and column.
      * @param Sudoku $sudoku
      * @return void
      */
-    private static function buildBlocks(Sudoku $sudoku): void
+    private static function fillBlocks(Sudoku $sudoku): void
     {
-        $blocks = [];
+        $blocks = $sudoku->getBlocks();
         $rows = $sudoku->getRows();
 
-        // Initialize blocks
-        $blocksInRow = $sudoku::SIZE / 3;
-        $amount = $blocksInRow * $blocksInRow;
-        for ($block = 0; $block < $amount; $block++) {
-            $blocks[] = new Block($block);
-        }
-
-        // Fill blocks with the correct cells based on row and column
-        $minBlock = 0;
+        $minBlockId = 0;
         $block = 0;
         foreach ($rows as $row) {
             // Increase minimum block ID when a row of blocks is filled
             if (($row->getId() + 1) % 3 === 0) {
                 $amount = $sudoku::SIZE / 3;
-                $minBlock += $amount;
+                $minBlockId += $amount;
             }
 
             foreach ($row->getCells() as $cell) {
@@ -124,11 +143,9 @@ class SudokuFactory
 
                 // Resets block ID to minimum block ID when all cells of a row have been allocated to a block
                 if (($columnId + 1) % $sudoku::SIZE === 0) {
-                    $block = $minBlock;
+                    $block = $minBlockId;
                 }
             }
         }
-
-        $sudoku->setBlocks($blocks);
     }
 }

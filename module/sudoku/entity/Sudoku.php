@@ -91,6 +91,28 @@ class Sudoku
         $this->blocks = $blocks;
     }
 
+    /**
+     * Checks whether the sudoku is solved
+     * @return bool
+     */
+    public function isSolved(): bool
+    {
+        $solved = true;
+
+        foreach ($this->cells as $cell) {
+            if ($cell->getNumber() === null) {
+                $solved = false;
+            }
+        }
+
+        return $solved;
+    }
+
+    /**
+     * Finds a cell by its ID.
+     * @param $cellId
+     * @return Cell|null
+     */
     #[Pure]
     public function findCell($cellId): ?Cell
     {
@@ -101,5 +123,33 @@ class Sudoku
         }
 
         return null;
+    }
+
+    /**
+     * Clears all numbers.
+     * @return void
+     */
+    public function clear(): void
+    {
+        foreach ($this->cells as $cell) {
+            $cell->setNumber(null);
+        }
+    }
+
+    /**
+     * Gets all unsolved cells.
+     * @return array<Cell>
+     */
+    public function getAllUnsolvedCells(): array
+    {
+        $unsolvedCells = [];
+
+        foreach ($this->cells as $cell) {
+            if (!$cell->isSolved()) {
+                $unsolvedCells[] = $cell;
+            }
+        }
+
+        return $unsolvedCells;
     }
 }

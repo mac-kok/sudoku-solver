@@ -5,6 +5,7 @@ class Cell
 {
     private int $id;
     private ?int $number = null;
+    private bool $isSolved = false;
     private Row $row;
     private Column $column;
     private Block $block;
@@ -31,35 +32,35 @@ class Cell
     }
 
     /**
+     * @param int|null $number
+     */
+    public function setNumber(?int $number): void
+    {
+        $this->number = $number;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSolved(): bool
+    {
+        return $this->isSolved;
+    }
+
+    /**
+     * @param bool $isSolved
+     */
+    public function setIsSolved(bool $isSolved): void
+    {
+        $this->isSolved = $isSolved;
+    }
+
+    /**
      * @return Row
      */
     public function getRow(): Row
     {
         return $this->row;
-    }
-
-    /**
-     * @return Column
-     */
-    public function getColumn(): Column
-    {
-        return $this->column;
-    }
-
-    /**
-     * @return Block
-     */
-    public function getBlock(): Block
-    {
-        return $this->block;
-    }
-
-    /**
-     * @param int $number
-     */
-    public function setNumber(int $number): void
-    {
-        $this->number = $number;
     }
 
     /**
@@ -71,11 +72,27 @@ class Cell
     }
 
     /**
+     * @return Column
+     */
+    public function getColumn(): Column
+    {
+        return $this->column;
+    }
+
+    /**
      * @param Column $column
      */
     public function setColumn(Column $column): void
     {
         $this->column = $column;
+    }
+
+    /**
+     * @return Block
+     */
+    public function getBlock(): Block
+    {
+        return $this->block;
     }
 
     /**
