@@ -1,10 +1,10 @@
 <?php
 require_once __DIR__.'/vendor/autoload.php';
 
-use SudokuSolver\Sudoku\Factory\SudokuFactory;
-use SudokuSolver\Form\CellInputApplier;
-use SudokuSolver\Sudoku\SudokuValidator;
-use SudokuSolver\Sudoku\SudokuSolver;
+use SudokuSolver\sudoku\factory\SudokuFactory;
+use SudokuSolver\form\CellInputApplier;
+use SudokuSolver\sudoku\SudokuValidator;
+use SudokuSolver\sudoku\SudokuSolver;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 

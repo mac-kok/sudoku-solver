@@ -1,7 +1,7 @@
 <?php
-namespace SudokuSolver\Form;
+namespace SudokuSolver\form;
 
-use SudokuSolver\Sudoku\Entity\Sudoku;
+use SudokuSolver\sudoku\entity\Sudoku;
 
 class CellInputApplier
 {
