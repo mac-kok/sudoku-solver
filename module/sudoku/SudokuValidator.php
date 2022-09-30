@@ -1,6 +1,6 @@
 <?php
 
-namespace SudokuSolver\Sudoku;
+namespace SudokuSolver\sudoku;
 
 use SudokuSolver\Sudoku\Entity\Set;
 use SudokuSolver\Sudoku\Entity\Sudoku;

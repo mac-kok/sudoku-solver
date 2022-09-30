@@ -1,5 +1,5 @@
 <?php
-namespace SudokuSolver\Sudoku\Entity;
+namespace SudokuSolver\sudoku\entity;
 
 use JetBrains\PhpStorm\Pure;
 
