@@ -27,6 +27,10 @@ if (isset($_POST['solve'])) {
     }
 }
 
+if (isset($_POST['clear'])) {
+    $sudoku->clear();
+}
+
 // Render view
 echo $twig->render('index.html.twig', [
     'sudoku' => $sudoku,

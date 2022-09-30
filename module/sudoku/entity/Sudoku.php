@@ -102,4 +102,11 @@ class Sudoku
 
         return null;
     }
+
+    public function clear(): void
+    {
+        foreach ($this->cells as $cell) {
+            $cell->setNumber(null);
+        }
+    }
 }
