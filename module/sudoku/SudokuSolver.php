@@ -1,9 +1,9 @@
 <?php
-namespace SudokuSolver\Sudoku;
+namespace SudokuSolver\sudoku;
 
-use SudokuSolver\Sudoku\Entity\Cell;
-use SudokuSolver\Sudoku\Entity\Set;
-use SudokuSolver\Sudoku\Entity\Sudoku;
+use SudokuSolver\sudoku\entity\Cell;
+use SudokuSolver\sudoku\entity\Set;
+use SudokuSolver\sudoku\entity\Sudoku;
 
 class SudokuSolver
 {

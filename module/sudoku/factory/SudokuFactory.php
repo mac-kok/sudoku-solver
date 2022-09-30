@@ -1,7 +1,7 @@
 <?php
-namespace SudokuSolver\Sudoku\Factory;
+namespace SudokuSolver\sudoku\factory;
 
-use SudokuSolver\Sudoku\Entity\ { Sudoku, Cell, Row, Column, Block };
+use SudokuSolver\sudoku\entity\ { Sudoku, Cell, Row, Column, Block };
 
 class SudokuFactory
 {
