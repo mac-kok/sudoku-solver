@@ -15,6 +15,10 @@ class SudokuSolver
     public static function solve(Sudoku $sudoku): void
     {
         self::solveWithPossibilities($sudoku);
+
+        if (!$sudoku->isSolved()) {
+            self::solveWithBacktracking($sudoku);
+        }
     }
 
     /**
@@ -32,12 +36,51 @@ class SudokuSolver
 
             if ($cell !== null && count($possibility) === 1) {
                 $cell->setNumber($possibility[0]);
+                $cell->setIsSolved(true);
                 $hasAnswer = true;
             }
         }
 
         if ($hasAnswer) {
             self::solveWithPossibilities($sudoku);
+        }
+    }
+
+    /**
+     * Solves a sudoku through one by one assigning a valid number to an empty cell and backtracking if there are no
+     * valid numbers available for the next cell.
+     * @param Sudoku $sudoku
+     * @return void
+     */
+    private static function solveWithBacktracking(Sudoku $sudoku): void
+    {
+        $cells = $sudoku->getAllUnsolvedCells();
+
+        $i = 0;
+        $triedPossibilities = [];
+        while (!$sudoku->isSolved()) {
+            $cell = $cells[$i];
+            $possibilities = self::getPossibleNumbers($cell, $sudoku::SIZE);
+
+            if (array_key_exists($i, $triedPossibilities)) {
+                $possibilities = array_values(array_diff($possibilities, $triedPossibilities[$i]));
+            } else {
+                $triedPossibilities[$i] = [];
+            }
+
+            if (empty($possibilities)) {
+
+                unset($triedPossibilities[$i]);
+                $cell->setNumber(null);
+                $i--;
+            } else {
+
+                $number = $possibilities[0];
+                $cell->setNumber($number);
+                $triedPossibilities[$i][] = $number;
+
+                $i++;
+            }
         }
     }
 
@@ -51,7 +94,7 @@ class SudokuSolver
         $possibilities = [];
 
         foreach ($sudoku->getCells() as $cell) {
-            if ($cell->getNumber() === null) {
+            if (!$cell->isSolved()) {
                 $possibilities[$cell->getId()] = self::getPossibleNumbers($cell, $sudoku::SIZE);
             }
         }
@@ -74,8 +117,8 @@ class SudokuSolver
             $column = $cell->getColumn();
             $block = $cell->getBlock();
 
-            if (self::numberIsPossible($i, $row) && self::numberIsPossible($i, $column) &&
-                self::numberIsPossible($i, $block)) {
+            if (!self::numberInSet($i, $row) && !self::numberInSet($i, $column) &&
+                !self::numberInSet($i, $block)) {
                 $numbers[] = $i;
             }
         }
@@ -89,16 +132,16 @@ class SudokuSolver
      * @param Set $set
      * @return bool
      */
-    private static function numberIsPossible(int $number, Set $set): bool
+    private static function numberInSet(int $number, Set $set): bool
     {
-        $possible = true;
+        $inSet = false;
 
         foreach ($set->getCells() as $cell) {
             if ($cell->getNumber() === $number) {
-                $possible = false;
+                $inSet = true;
             }
         }
 
-        return  $possible;
+        return  $inSet;
     }
 }

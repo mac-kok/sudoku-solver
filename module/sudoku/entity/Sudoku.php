@@ -92,6 +92,23 @@ class Sudoku
     }
 
     /**
+     * Checks whether the sudoku is solved
+     * @return bool
+     */
+    public function isSolved(): bool
+    {
+        $solved = true;
+
+        foreach ($this->cells as $cell) {
+            if ($cell->getNumber() === null) {
+                $solved = false;
+            }
+        }
+
+        return $solved;
+    }
+
+    /**
      * Finds a cell by its ID.
      * @param $cellId
      * @return Cell|null
@@ -117,5 +134,22 @@ class Sudoku
         foreach ($this->cells as $cell) {
             $cell->setNumber(null);
         }
+    }
+
+    /**
+     * Gets all unsolved cells.
+     * @return array<Cell>
+     */
+    public function getAllUnsolvedCells(): array
+    {
+        $unsolvedCells = [];
+
+        foreach ($this->cells as $cell) {
+            if (!$cell->isSolved()) {
+                $unsolvedCells[] = $cell;
+            }
+        }
+
+        return $unsolvedCells;
     }
 }

@@ -18,6 +18,7 @@ class CellInputApplier
                 $foundCell = $sudoku->findCell($cellId);
                 if (!is_null($foundCell)) {
                     $foundCell->setNumber($number);
+                    $foundCell->setIsSolved(true);
                 }
             }
         }
