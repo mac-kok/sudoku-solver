@@ -4,6 +4,7 @@ require_once __DIR__.'/vendor/autoload.php';
 use SudokuSolver\Sudoku\Factory\SudokuFactory;
 use SudokuSolver\Form\FormInputProcessor;
 use SudokuSolver\Sudoku\SudokuValidator;
+use SudokuSolver\Sudoku\SudokuSolver;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -22,7 +23,9 @@ $warningMsg = "";
 if (isset($_POST['solve'])) {
     FormInputProcessor::processCellInput($sudoku, $_POST['cell']);
 
-    if (!SudokuValidator::sudokuIsValid($sudoku)) {
+    if (SudokuValidator::sudokuIsValid($sudoku)) {
+        SudokuSolver::solve($sudoku);
+    } else {
         $warningMsg = "This sudoku is invalid.";
     }
 }
