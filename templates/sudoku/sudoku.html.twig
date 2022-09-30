@@ -1,0 +1,28 @@
+<form method="post">
+    <p class="text-danger">
+        {{ warning_msg }}
+    </p>
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-6 border border-dark p-0">
+            {% for block in sudoku.blocks %}
+                {% if block.id == 0 or block.id % amount_of_rows == 0 %}
+                    <div class='row g-0'>
+                {% endif %}
+
+                {% include 'sudoku/block.html.twig' %}
+
+                {% if (block.id + 1) % amount_of_rows == 0 %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3 mb-3">
+        <div class="col-auto">
+            <button type="submit" name="solve" class="btn btn-primary">Solve</button>
+        </div>
+        <div class="col-auto">
+            <button type="submit" name="clear" class="btn btn-danger">Clear</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,11 @@
+{
+    "autoload": {
+        "psr-4": {
+            "SudokuSolver\\":"module"
+        }
+    },
+    "require": {
+        "php": ">=8.1",
+        "twig/twig": "^3.4"
+    }
+}
