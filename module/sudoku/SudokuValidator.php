@@ -36,6 +36,7 @@ class SudokuValidator
         $valid = true;
 
         foreach ($sets as $set) {
+
             if (!self::hasUniqueNumbers($set) || !self::hasValidNumbers($set, $sudokuSize)) {
                 $valid = false;
             }
@@ -54,6 +55,7 @@ class SudokuValidator
         $numbers = [];
 
         foreach ($set->getCells() as $cell) {
+
             $number = $cell->getNumber();
 
             if ($number !== null) {
@@ -75,6 +77,7 @@ class SudokuValidator
         $valid = true;
 
         foreach ($set->getCells() as $cell) {
+
             $number = $cell->getNumber();
 
             if ($number !== null && ($number < 1 || $number > $sudokuSize)) {

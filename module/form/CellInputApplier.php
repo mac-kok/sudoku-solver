@@ -14,9 +14,12 @@ class CellInputApplier
     public static function apply(Sudoku $sudoku, array $cellInput): void
     {
         foreach ($cellInput as $cellId => $number) {
+
             if ($number !== "") {
+
                 $foundCell = $sudoku->findCell($cellId);
                 if (!is_null($foundCell)) {
+
                     $foundCell->setNumber($number);
                     $foundCell->setIsSolved(true);
                 }

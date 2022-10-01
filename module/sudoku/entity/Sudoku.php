@@ -100,6 +100,7 @@ class Sudoku
         $solved = true;
 
         foreach ($this->cells as $cell) {
+
             if ($cell->getNumber() === null) {
                 $solved = false;
             }
@@ -117,6 +118,7 @@ class Sudoku
     public function findCell($cellId): ?Cell
     {
         foreach ($this->cells as $cell) {
+
             if ($cell->getId() === $cellId) {
                 return $cell;
             }
@@ -145,6 +147,7 @@ class Sudoku
         $unsolvedCells = [];
 
         foreach ($this->cells as $cell) {
+
             if (!$cell->isSolved()) {
                 $unsolvedCells[] = $cell;
             }
