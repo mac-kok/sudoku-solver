@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__."/vendor/autoload.php";
 
 use SudokuSolver\sudoku\factory\SudokuFactory;
 use SudokuSolver\form\CellInputApplier;
@@ -9,7 +9,7 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 // Specify Twig templates location
-$loader = new FilesystemLoader(__DIR__ . '/templates');
+$loader = new FilesystemLoader(__DIR__."/templates");
 
 // Instantiate Twig
 $twig = new Environment($loader);
@@ -20,8 +20,8 @@ $amountOfRows = $sudoku::SIZE / 3;
 $warningMsg = "";
 
 // Process cell input and solve the sudoku
-if (isset($_POST['solve'])) {
-    CellInputApplier::apply($sudoku, $_POST['cell']);
+if (isset($_POST["solve"])) {
+    CellInputApplier::apply($sudoku, $_POST["cell"]);
 
     if (SudokuValidator::sudokuIsValid($sudoku)) {
         SudokuSolver::solve($sudoku);
@@ -31,13 +31,13 @@ if (isset($_POST['solve'])) {
 }
 
 // Clear the sudoku
-if (isset($_POST['clear'])) {
+if (isset($_POST["clear"])) {
     $sudoku->clear();
 }
 
 // Render view
-echo $twig->render('index.html.twig', [
-    'sudoku' => $sudoku,
-    'amount_of_rows' => $amountOfRows,
-    'warning_msg' => $warningMsg
+echo $twig->render("pages/index.html.twig", [
+    "sudoku" => $sudoku,
+    "amount_of_rows" => $amountOfRows,
+    "warning_msg" => $warningMsg
 ]);

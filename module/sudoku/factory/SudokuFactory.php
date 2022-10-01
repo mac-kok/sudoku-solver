@@ -82,8 +82,10 @@ class SudokuFactory
 
         $minCellId = 0;
         foreach ($sudoku->getRows() as $row) {
+
             $maxCellId = $minCellId + $sudoku::SIZE;
             for ($cellId = $minCellId; $cellId < $maxCellId; $cellId++) {
+
                 $row->addCell($cells[$cellId]);
                 $cells[$cellId]->setRow($row);
             }
@@ -103,7 +105,9 @@ class SudokuFactory
         $columns = $sudoku->getColumns();
 
         foreach ($rows as $row) {
+
             for ($i = 0; $i < $sudoku::SIZE; $i++) {
+
                 $cell = $row->getCells()[$i];
 
                 $cell->setColumn($columns[$i]);
@@ -125,6 +129,7 @@ class SudokuFactory
         $minBlockId = 0;
         $block = 0;
         foreach ($rows as $row) {
+
             // Increase minimum block ID when a row of blocks is filled
             if (($row->getId() + 1) % 3 === 0) {
                 $amount = $sudoku::SIZE / 3;

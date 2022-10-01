@@ -1,10 +1,10 @@
 <div class="col border border-dark">
     {% for cell in block.cells %}
         {% if cell.id == 0 or cell.id % 3 == 0 %}
-            <div class='row g-0'>
+            <div class="row g-0">
         {% endif %}
 
-        {% include 'sudoku/cell.html.twig' %}
+        {% include 'components/cell.html.twig' %}
 
         {% if (cell.id + 1) % 3 == 0 %}
             </div>
